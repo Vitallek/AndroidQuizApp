@@ -15,20 +15,25 @@
         <TextView
             android:id="@+id/timer"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginEnd="10dp"
             android:text="@string/timer"
             android:textSize="24sp"
-            app:layout_constraintBottom_toBottomOf="@+id/categoryTextView"
+            app:layout_constraintBottom_toBottomOf="@+id/difficultyTextView"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="@+id/difficultyTextView" />
 
         <TextView
             android:id="@+id/categoryTextView"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="0dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
             android:text="@string/categoryTextView"
+            android:textColor="@color/gray"
             android:textSize="24sp"
             app:layout_constraintBottom_toTopOf="@id/difficultyTextView"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_weight=".5" />
@@ -37,26 +42,29 @@
             android:id="@+id/difficultyTextView"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
+            android:layout_marginStart="10dp"
             android:text="@string/difficulty"
             android:textSize="24sp"
             app:layout_constraintBottom_toTopOf="@id/questionArea"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/categoryTextView"
-            app:layout_constraintVertical_weight=".5" />
+            app:layout_constraintVertical_weight=".3" />
 
         <TextView
+            android:textColor="@color/gray"
             android:id="@+id/questionArea"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:textSize="20sp"
             android:text="@string/question"
+            android:gravity="center_vertical|center_horizontal"
             app:layout_constraintBottom_toTopOf="@id/answersArea"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/difficultyTextView"
-            app:layout_constraintVertical_weight="1.5
-" />
+            app:layout_constraintVertical_weight="1" />
 
-        <ScrollView
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/answersArea"
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -66,22 +74,59 @@
             app:layout_constraintTop_toBottomOf="@+id/questionArea"
             app:layout_constraintVertical_weight="3">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical" />
-        </ScrollView>
+            <Button
+                style="@style/answBtnsStyle"
+                android:id="@+id/answ1Btn"
+                app:layout_constraintBottom_toTopOf="@id/answ3Btn"
+                app:layout_constraintEnd_toStartOf="@id/answ2Btn"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_weight="1" />
+
+            <Button
+                style="@style/answBtnsStyle"
+                android:id="@+id/answ2Btn"
+                app:layout_constraintBottom_toTopOf="@id/answ4Btn"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintStart_toEndOf="@id/answ1Btn"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_weight="1" />
+
+            <Button
+                style="@style/answBtnsStyle"
+                android:id="@+id/answ3Btn"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/answ4Btn"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/answ1Btn"
+                app:layout_constraintVertical_weight="1" />
+
+            <Button
+                style="@style/answBtnsStyle"
+                android:id="@+id/answ4Btn"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintStart_toEndOf="@id/answ3Btn"
+                app:layout_constraintTop_toBottomOf="@id/answ2Btn"
+                app:layout_constraintVertical_weight="1" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <Button
             android:id="@+id/continueQuizBtn"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
+            android:textSize="16sp"
             android:text="@string/continueBtn"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/answersArea"
-            app:layout_constraintVertical_weight="1" />
+            app:layout_constraintVertical_weight=".5" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

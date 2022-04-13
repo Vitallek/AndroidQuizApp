@@ -5,8 +5,11 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
+import android.os.Handler;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,33 +35,33 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 
 public class QuizArea extends Fragment {
 
     private JSONArray responseToHandle;
     private Button continueQuizBtn;
-    private TextView categoryTextView;
-    private TextView difficultyTextView;
-    private TextView questionArea;
-    private ScrollView answersArea;
+    private Button answ1Btn, answ2Btn, answ3Btn, answ4Btn;
+    private TextView categoryTextView, timer, difficultyTextView, questionArea;
+    private ConstraintLayout answersArea;
 
     public void quizHandler(JSONArray responseToHandle,
                             TextView categoryTextView,
                             TextView difficultyTextView,
                             TextView questionArea,
-                            ScrollView answersArea,
+                            ConstraintLayout answersArea,
                             int answerNumber)
     {
         try {
             JSONObject result = responseToHandle.getJSONObject(answerNumber);
             String category = result.getString("category");
-            categoryTextView.setText(category);
+            categoryTextView.setText(Html.fromHtml(category.toUpperCase(Locale.ROOT)));
 
             String difficulty = result.getString("difficulty");
-            difficultyTextView.setText(difficulty);
+            difficultyTextView.setText("Level: " + Html.fromHtml(difficulty));
 
             String question = result.getString("question");
-            questionArea.setText(question);
+            questionArea.setText(Html.fromHtml(question));
 
             JSONArray incorrectAnswers = result.getJSONArray("incorrect_answers");
             String correctAnswer = result.getString("correct_answer");
@@ -70,10 +73,23 @@ public class QuizArea extends Fragment {
             allAnswers.add(correctAnswer);
             Collections.shuffle(allAnswers);
 
-
             for(int i = 0; i < allAnswers.size(); i++){
-                Button button = new Button(getActivity());
-
+                Button tempBtn = (Button) answersArea.getChildAt(i);
+                tempBtn.setText(allAnswers.get(i));
+                tempBtn.setVisibility(View.VISIBLE);
+                tempBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if(tempBtn.getText() == correctAnswer){
+                            tempBtn.setBackgroundTintList(ContextCompat.getColorStateList(getContext(), R.color.correctAnswer));
+                        } else {
+                            tempBtn.setBackgroundTintList(ContextCompat.getColorStateList(getContext(), R.color.incorrectAnswer));
+                        }
+                        for(int i = 0; i < allAnswers.size(); i++){
+                            answersArea.getChildAt(i).setEnabled(false);
+                        }
+                    }
+                });
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -92,6 +108,7 @@ public class QuizArea extends Fragment {
         difficultyTextView = view.findViewById(R.id.difficultyTextView);
         questionArea = view.findViewById(R.id.questionArea);
         answersArea = view.findViewById(R.id.answersArea);
+        timer = view.findViewById(R.id.timer);
 
         // Instantiate the RequestQueue.
         RequestQueue queue = Volley.newRequestQueue(getActivity());
@@ -117,6 +134,25 @@ public class QuizArea extends Fragment {
         });
         // Add the request to the RequestQueue.
         queue.add(request);
+
+        //runs without a timer by reposting this handler at the end of the runnable
+        long startTime = System.currentTimeMillis();
+        Handler timerHandler = new Handler();
+        Runnable timerRunnable = new Runnable() {
+
+            @Override
+            public void run() {
+                long millis = System.currentTimeMillis() - startTime;
+//                int seconds = (int) (millis / 1000);
+//                int minutes = seconds / 60;
+//                seconds = seconds % 60;
+                timer.setText("Time: " + millis);
+                timerHandler.postDelayed(this, 50);
+            }
+        };
+
+        timerHandler.postDelayed(timerRunnable, 0);
+        //stop it //timerHandler.removeCallbacks(timerRunnable);
 
         continueQuizBtn.setOnClickListener(new View.OnClickListener() {
             @Override

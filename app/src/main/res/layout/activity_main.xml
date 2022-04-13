@@ -8,6 +8,7 @@
     tools:context=".MainActivity">
 
     <androidx.fragment.app.FragmentContainerView
+        android:background="@color/white"
         android:id="@+id/fragmentContainerView"
         android:name="com.example.quiz.StartFragment"
         android:layout_width="match_parent"
