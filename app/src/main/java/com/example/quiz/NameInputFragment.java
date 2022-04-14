@@ -26,7 +26,7 @@ public class NameInputFragment extends Fragment {
         playBtn1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(!playerNameInputField.getText().toString().isEmpty()){
+                if(!playerNameInputField.getText().toString().isEmpty() && playerNameInputField.getText().length() <= 20){
                     String playerNameStr = playerNameInputField.getText().toString();
 
                     bundle.putString("PlayerName", playerNameStr);
@@ -39,7 +39,7 @@ public class NameInputFragment extends Fragment {
                             .addToBackStack("nameInputArea") // name can be null
                             .commit();
                 } else {
-                    Toast.makeText(getActivity(),"Please, enter name",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(),"Name should have length greater than 0 and less than 20 characters",Toast.LENGTH_SHORT).show();
                 }
             }
 

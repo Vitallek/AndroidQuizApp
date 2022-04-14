@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">quiz</string>
+    <string name="app_name">Quiz Wizard</string>
     <string name="playBtn">Start Quiz</string>
     <string name="toResultListBtn">Results</string>
     <string name="nameInputBtn">Play</string>
@@ -7,8 +7,8 @@
     <string name="goToStartBtn">Go home</string>
     <string name="playerName">What is your name?</string>
     <string name="questionCounter">0/10</string>
-    <string name="playerNameInput">Vitallek...</string>
-    <string name="categoryTextView">CATEGORYCATEGORYCATEGORYCATEGORYCATEGORY</string>
+    <string name="playerNameInput">Your name...</string>
+    <string name="categoryTextView">CATEGORY</string>
     <string name="difficulty">Difficulty</string>
     <string name="question">Question</string>
     <string name="timer">123456789</string>
