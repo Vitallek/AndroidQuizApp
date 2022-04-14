@@ -12,6 +12,20 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <TextView
+            android:id="@+id/congratulationsText"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:gravity="center"
+            android:textColor="@color/gray"
+            android:textSize="24sp"
+            android:text=""
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/playerList"
+            app:layout_constraintVertical_weight="2" />
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/playerList"
             android:layout_width="match_parent"
@@ -19,7 +33,7 @@
             app:layout_constraintBottom_toTopOf="@id/goHomeBtn"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/congratulationsText"
             app:layout_constraintVertical_weight="7" />
 
         <Button
@@ -31,7 +45,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/playerList"
-            app:layout_constraintVertical_weight=".5" />
+            app:layout_constraintVertical_weight="1" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </FrameLayout>

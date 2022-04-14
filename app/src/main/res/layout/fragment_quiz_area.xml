@@ -21,7 +21,8 @@
             android:textSize="24sp"
             app:layout_constraintBottom_toBottomOf="@+id/difficultyTextView"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/difficultyTextView" />
+            app:layout_constraintTop_toTopOf="@+id/difficultyTextView"
+            android:visibility="gone"/>
 
         <TextView
             android:id="@+id/categoryTextView"

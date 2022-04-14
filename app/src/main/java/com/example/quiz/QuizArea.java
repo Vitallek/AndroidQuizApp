@@ -176,12 +176,11 @@ public class QuizArea extends Fragment {
             public void onClick(View view) {
                 if(answerNumber == 9){
                     bundle.putInt("finishTime", (int) System.currentTimeMillis());
+                    bundle.putInt("correctAnswers", correctAnswers);
                     ResultArea resultArea = new ResultArea();
-                    System.out.println(bundle);
-                    //resultArea.setArguments(bundle);
+                    resultArea.setArguments(bundle);
                     getFragmentManager().beginTransaction()
                             .replace(R.id.fragmentContainerView, resultArea, null)
-                            .setReorderingAllowed(true)
                             .addToBackStack("QuizArea") // name can be null
                             .commit();
                 } else {

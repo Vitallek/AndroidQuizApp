@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 public class NameInputFragment extends Fragment {
 
@@ -25,19 +26,22 @@ public class NameInputFragment extends Fragment {
         playBtn1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if(!playerNameInputField.getText().toString().isEmpty()){
+                    String playerNameStr = playerNameInputField.getText().toString();
 
-                String playerNameStr = playerNameInputField.getText().toString();
+                    bundle.putString("PlayerName", playerNameStr);
+                    QuizArea quizArea = new QuizArea();
+                    quizArea.setArguments(bundle);
 
-                bundle.putString("PlayerName", playerNameStr);
-                QuizArea quizArea = new QuizArea();
-                quizArea.setArguments(bundle);
-
-                getFragmentManager().beginTransaction()
-                        .replace(R.id.fragmentContainerView, quizArea)
-                        .setReorderingAllowed(true)
-                        .addToBackStack("nameInputArea") // name can be null
-                        .commit();
+                    getFragmentManager().beginTransaction()
+                            .replace(R.id.fragmentContainerView, quizArea)
+                            .addToBackStack("nameInputArea") // name can be null
+                            .commit();
+                } else {
+                    Toast.makeText(getActivity(),"Please, enter name",Toast.LENGTH_SHORT).show();
+                }
             }
+
         });
 
         return view;
