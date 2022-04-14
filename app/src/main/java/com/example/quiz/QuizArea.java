@@ -44,6 +44,10 @@ public class QuizArea extends Fragment {
     private Button answ1Btn, answ2Btn, answ3Btn, answ4Btn;
     private TextView categoryTextView, timer, difficultyTextView, questionArea;
     private ConstraintLayout answersArea;
+    private int answerNumber = 0;
+    private int correctAnswers = 0;
+    private Bundle bundle;
+
 
     public void quizHandler(JSONArray responseToHandle,
                             TextView categoryTextView,
@@ -53,6 +57,10 @@ public class QuizArea extends Fragment {
                             int answerNumber)
     {
         try {
+            for(int i = 0; i < answersArea.getChildCount(); i++) {
+                answersArea.getChildAt(i).setVisibility(View.GONE);
+            }
+            continueQuizBtn.setEnabled(false);
             JSONObject result = responseToHandle.getJSONObject(answerNumber);
             String category = result.getString("category");
             categoryTextView.setText(Html.fromHtml(category.toUpperCase(Locale.ROOT)));
@@ -75,6 +83,10 @@ public class QuizArea extends Fragment {
 
             for(int i = 0; i < allAnswers.size(); i++){
                 Button tempBtn = (Button) answersArea.getChildAt(i);
+                // handle next question
+                tempBtn.setEnabled(true);
+                tempBtn.setBackgroundTintList(ContextCompat.getColorStateList(getContext(), R.color.white));
+                //
                 tempBtn.setText(allAnswers.get(i));
                 tempBtn.setVisibility(View.VISIBLE);
                 tempBtn.setOnClickListener(new View.OnClickListener() {
@@ -82,11 +94,15 @@ public class QuizArea extends Fragment {
                     public void onClick(View view) {
                         if(tempBtn.getText() == correctAnswer){
                             tempBtn.setBackgroundTintList(ContextCompat.getColorStateList(getContext(), R.color.correctAnswer));
+                            correctAnswers++;
+                            continueQuizBtn.setEnabled(true);
                         } else {
                             tempBtn.setBackgroundTintList(ContextCompat.getColorStateList(getContext(), R.color.incorrectAnswer));
+                            continueQuizBtn.setEnabled(true);
                         }
                         for(int i = 0; i < allAnswers.size(); i++){
                             answersArea.getChildAt(i).setEnabled(false);
+
                         }
                     }
                 });
@@ -100,8 +116,9 @@ public class QuizArea extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_quiz_area, container, false);
-        //TODO name processing
-        Bundle bundle = getArguments();
+        //start bg timer
+        bundle = getArguments();
+        bundle.putInt("startTime", (int) System.currentTimeMillis());
 
         continueQuizBtn = view.findViewById(R.id.continueQuizBtn);
         categoryTextView = view.findViewById(R.id.categoryTextView);
@@ -120,7 +137,7 @@ public class QuizArea extends Fragment {
             public void onResponse(JSONObject response) {
                 try {
                     responseToHandle =  response.getJSONArray("results");
-                    quizHandler(responseToHandle, categoryTextView,difficultyTextView,questionArea,answersArea,0);
+                    quizHandler(responseToHandle, categoryTextView,difficultyTextView,questionArea,answersArea,answerNumber);
 //                    Toast.makeText(getActivity(),responseToHandle.toString(),Toast.LENGTH_SHORT).show();
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -136,39 +153,52 @@ public class QuizArea extends Fragment {
         queue.add(request);
 
         //runs without a timer by reposting this handler at the end of the runnable
-        long startTime = System.currentTimeMillis();
-        Handler timerHandler = new Handler();
-        Runnable timerRunnable = new Runnable() {
-
-            @Override
-            public void run() {
-                long millis = System.currentTimeMillis() - startTime;
-//                int seconds = (int) (millis / 1000);
-//                int minutes = seconds / 60;
-//                seconds = seconds % 60;
-                timer.setText("Time: " + millis);
-                timerHandler.postDelayed(this, 50);
-            }
-        };
-
-        timerHandler.postDelayed(timerRunnable, 0);
-        //stop it //timerHandler.removeCallbacks(timerRunnable);
+//        long startTime = System.currentTimeMillis();
+//        Handler timerHandler = new Handler();
+//        Runnable timerRunnable = new Runnable() {
+//
+//            @Override
+//            public void run() {
+//                long millis = System.currentTimeMillis() - startTime;
+////                int seconds = (int) (millis / 1000);
+////                int minutes = seconds / 60;
+////                seconds = seconds % 60;
+//                timer.setText("Time: " + millis);
+//                timerHandler.postDelayed(this, 50);
+//            }
+//        };
+//
+//        timerHandler.postDelayed(timerRunnable, 0);
+//        timerHandler.removeCallbacks(timerRunnable); // stop the timer
 
         continueQuizBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                getFragmentManager().beginTransaction()
-                        .replace(R.id.fragmentContainerView, ResultArea.class, null)
-                        .setReorderingAllowed(true)
-                        .addToBackStack("QuizArea") // name can be null
-                        .commit();
+                if(answerNumber == 9){
+                    bundle.putInt("finishTime", (int) System.currentTimeMillis());
+                    ResultArea resultArea = new ResultArea();
+                    System.out.println(bundle);
+                    //resultArea.setArguments(bundle);
+                    getFragmentManager().beginTransaction()
+                            .replace(R.id.fragmentContainerView, resultArea, null)
+                            .setReorderingAllowed(true)
+                            .addToBackStack("QuizArea") // name can be null
+                            .commit();
+                } else {
+                    answerNumber++;
+                    quizHandler(responseToHandle, categoryTextView,difficultyTextView,questionArea,answersArea,answerNumber);
+                    continueQuizBtn.setText((answerNumber + 1) + "/10 \nContinue");
+                }
             }
         });
         return view;
     }
 
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    public void onDestroyView() {
+        super.onDestroyView();
+//        Bundle bundle = new Bundle();
+//        bundle = getArguments();
+//        bundle.putInt("FinishTime", (int) System.currentTimeMillis());
     }
 }

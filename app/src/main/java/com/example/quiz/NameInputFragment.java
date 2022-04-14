@@ -12,6 +12,8 @@ import android.widget.EditText;
 
 public class NameInputFragment extends Fragment {
 
+    private Bundle bundle = new Bundle();
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -20,18 +22,18 @@ public class NameInputFragment extends Fragment {
         Button playBtn1 = view.findViewById(R.id.playBtn1);
         EditText playerNameInputField = view.findViewById(R.id.playerNameInputField);
 
-
-
         playBtn1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
                 String playerNameStr = playerNameInputField.getText().toString();
-                Bundle bundle = new Bundle();
+
                 bundle.putString("PlayerName", playerNameStr);
+                QuizArea quizArea = new QuizArea();
+                quizArea.setArguments(bundle);
 
                 getFragmentManager().beginTransaction()
-                        .replace(R.id.fragmentContainerView, QuizArea.class, null)
+                        .replace(R.id.fragmentContainerView, quizArea)
                         .setReorderingAllowed(true)
                         .addToBackStack("nameInputArea") // name can be null
                         .commit();
