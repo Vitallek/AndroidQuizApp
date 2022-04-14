@@ -98,11 +98,18 @@ public class QuizArea extends Fragment {
                             continueQuizBtn.setEnabled(true);
                         } else {
                             tempBtn.setBackgroundTintList(ContextCompat.getColorStateList(getContext(), R.color.incorrectAnswer));
+                            //TODO pass through all buttons and light correct answer
+                            for(int i = 0; i < allAnswers.size(); i++){
+                                Button showCorrectBtnIfIncorrect = (Button) answersArea.getChildAt(i);
+                                String buttonText = showCorrectBtnIfIncorrect.getText().toString();
+                                if(buttonText.equals(correctAnswer)){
+                                    showCorrectBtnIfIncorrect.setBackgroundTintList(ContextCompat.getColorStateList(getContext(), R.color.correctAnswer));
+                                }
+                            }
                             continueQuizBtn.setEnabled(true);
                         }
                         for(int i = 0; i < allAnswers.size(); i++){
                             answersArea.getChildAt(i).setEnabled(false);
-
                         }
                     }
                 });
