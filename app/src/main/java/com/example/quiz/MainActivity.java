@@ -13,6 +13,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         getSupportFragmentManager().beginTransaction()
+                .setCustomAnimations(R.anim.enter_right_to_left,R.anim.exit_right_to_left,R.anim.enter_left_to_right, R.anim.exit_left_to_right)
                 .replace(R.id.fragmentContainerView, new StartFragment(), null)
                 .setReorderingAllowed(true)
                 .addToBackStack("nameInput") // name can be null

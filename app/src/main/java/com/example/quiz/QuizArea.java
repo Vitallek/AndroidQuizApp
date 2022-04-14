@@ -180,6 +180,7 @@ public class QuizArea extends Fragment {
                     ResultArea resultArea = new ResultArea();
                     resultArea.setArguments(bundle);
                     getFragmentManager().beginTransaction()
+                            .setCustomAnimations(R.anim.enter_right_to_left,R.anim.exit_right_to_left,R.anim.enter_left_to_right, R.anim.exit_left_to_right)
                             .replace(R.id.fragmentContainerView, resultArea, null)
                             .addToBackStack("QuizArea") // name can be null
                             .commit();

@@ -34,6 +34,7 @@ public class NameInputFragment extends Fragment {
                     quizArea.setArguments(bundle);
 
                     getFragmentManager().beginTransaction()
+                            .setCustomAnimations(R.anim.enter_right_to_left,R.anim.exit_right_to_left,R.anim.enter_left_to_right, R.anim.exit_left_to_right)
                             .replace(R.id.fragmentContainerView, quizArea)
                             .addToBackStack("nameInputArea") // name can be null
                             .commit();

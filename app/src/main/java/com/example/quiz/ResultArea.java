@@ -66,6 +66,7 @@ public class ResultArea extends Fragment {
             @Override
             public void onClick(View view) {
                 getFragmentManager().beginTransaction()
+                        .setCustomAnimations(R.anim.enter_left_to_right,R.anim.exit_left_to_right,R.anim.enter_right_to_left, R.anim.exit_right_to_left)
                         .replace(R.id.fragmentContainerView, StartFragment.class, null)
                         .addToBackStack("ResultArea") // name can be null
                         .commit();
