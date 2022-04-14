@@ -14,6 +14,9 @@
     <string name="timer">123456789</string>
     <string name="difficultyLevel">Level: </string>
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="top100label">TOP-100 Best Players</string>
+    <string name="itemID">ID</string>
+    <string name="ItemName">Name</string>
+    <string name="ItemScore">Score</string>
 
 </resources>

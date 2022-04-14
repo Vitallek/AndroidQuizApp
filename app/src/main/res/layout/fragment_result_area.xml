@@ -20,11 +20,60 @@
             android:textColor="@color/gray"
             android:textSize="24sp"
             android:text=""
+            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/playerList"
-            app:layout_constraintVertical_weight="2" />
+            app:layout_constraintBottom_toTopOf="@id/top100textview"
+            app:layout_constraintVertical_weight="6" />
+
+        <TextView
+            android:id="@+id/top100textview"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:textColor="@color/gray"
+            android:gravity="center"
+            android:text="@string/top100label"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/congratulationsText"
+            app:layout_constraintBottom_toTopOf="@id/itemID"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintVertical_weight="1"/>
+
+        <TextView
+            style="@style/playerItemStyle"
+            android:id="@+id/itemID"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:text="@string/itemID"
+            app:layout_constraintEnd_toStartOf="@id/itemName"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/top100textview"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintVertical_weight="1"/>
+
+
+        <TextView
+            style="@style/playerItemStyle"
+            android:id="@+id/itemName"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:text="@string/ItemName"
+            app:layout_constraintStart_toEndOf="@id/itemID"
+            app:layout_constraintEnd_toStartOf="@id/itemScore"
+            app:layout_constraintTop_toBottomOf="@id/top100textview"
+            app:layout_constraintHorizontal_weight="1"/>
+
+        <TextView
+            style="@style/playerItemStyle"
+            android:id="@+id/itemScore"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:text="@string/ItemScore"
+            app:layout_constraintStart_toEndOf="@id/itemName"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/top100textview"
+            app:layout_constraintHorizontal_weight="2"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/playerList"
@@ -33,7 +82,7 @@
             app:layout_constraintBottom_toTopOf="@id/goHomeBtn"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/congratulationsText"
+            app:layout_constraintTop_toBottomOf="@id/itemID"
             app:layout_constraintVertical_weight="7" />
 
         <Button

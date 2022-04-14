@@ -2,8 +2,14 @@ package com.example.quiz;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 public class DBHandler extends SQLiteOpenHelper {
 
@@ -24,7 +30,7 @@ public class DBHandler extends SQLiteOpenHelper {
     private static final String NAME_COL = "playerName";
 
     // below variable id for our course duration column.
-    private static final String DURATION_COL = "playerScore";
+    private static final String SCORE_COL = "playerScore";
 
     // creating a constructor for our database handler.
     public DBHandler(Context context) {
@@ -41,13 +47,38 @@ public class DBHandler extends SQLiteOpenHelper {
         String query = "CREATE TABLE " + TABLE_NAME + " ("
                 + ID_COL + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + NAME_COL + " TEXT,"
-                + DURATION_COL + " TEXT)";
+                + SCORE_COL + " TEXT)";
 
         // at last we are calling a exec sql 
         // method to execute above sql query
         db.execSQL(query);
     }
 
+    public List<PlayerDBmodel> getPlayers(){
+        List<PlayerDBmodel> returnList = new ArrayList<>();
+        String query = "SELECT * FROM " + TABLE_NAME + " ORDER BY " + SCORE_COL + " LIMIT 100" ;
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+        if(cursor.moveToFirst()){
+            do{
+                int playerID = cursor.getInt(0);
+                String playerName = cursor.getString(1);
+                int playerScore = cursor.getInt(2);
+                PlayerDBmodel player = new PlayerDBmodel(playerID,playerName,playerScore);
+                returnList.add(player);
+            } while (cursor.moveToNext());
+        }
+        Collections.sort(returnList, new Comparator<PlayerDBmodel>() {
+            @Override
+            public int compare(PlayerDBmodel p1, PlayerDBmodel p2) {
+                // -1 - less than, 1 - greater than, 0 - equal, all inversed for descending
+                return p2.getScore() - p1.getScore();
+            }
+        });
+        cursor.close();
+        db.close();
+        return returnList;
+    };
     // this method is use to add new player to our sqlite database.
     public void addNewField(String playerName, int score) {
 
@@ -63,7 +94,7 @@ public class DBHandler extends SQLiteOpenHelper {
         // on below line we are passing all values 
         // along with its key and value pair.
         values.put(NAME_COL, playerName);
-        values.put(DURATION_COL, score);
+        values.put(SCORE_COL, score);
 
         // after adding all values we are passing
         // content values to our table.

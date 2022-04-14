@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/oneLinePlayerLayout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/itemID"
+        style="@style/playerItemStyle"
+        android:text="@string/itemID"
+        app:layout_constraintBottom_toTopOf="@+id/divider"
+        app:layout_constraintEnd_toStartOf="@id/itemName"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toStartOf="@id/oneLinePlayerLayout"
+        app:layout_constraintTop_toTopOf="@id/oneLinePlayerLayout" />
+
+    <TextView
+        android:id="@+id/itemName"
+        style="@style/playerItemStyle"
+        android:text="@string/ItemName"
+        app:layout_constraintEnd_toStartOf="@id/itemScore"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toEndOf="@id/itemID"
+        app:layout_constraintTop_toTopOf="@id/itemID" />
+
+    <TextView
+        android:id="@+id/itemScore"
+        style="@style/playerItemStyle"
+        android:text="@string/ItemScore"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_weight="2"
+        app:layout_constraintStart_toEndOf="@id/itemName"
+        app:layout_constraintTop_toTopOf="@id/itemID" />
+
+    <View
+        android:id="@+id/divider"
+        android:layout_width="411dp"
+        android:layout_height="2dp"
+        android:background="?android:attr/listDivider"
+        app:layout_constraintEnd_toEndOf="@id/oneLinePlayerLayout"
+        app:layout_constraintStart_toStartOf="@id/oneLinePlayerLayout"
+        app:layout_constraintTop_toBottomOf="@id/itemID" />
+</androidx.constraintlayout.widget.ConstraintLayout>
